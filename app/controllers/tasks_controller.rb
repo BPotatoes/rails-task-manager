@@ -21,11 +21,19 @@ class TasksController < ApplicationController
   def edit
     @tasks = Task.find(params[:id])
   end
+
   def update
     @tasks = Task.find(params[:id])
-    @tasks.update(params[:tasks]) # Will raise ActiveModel::ForbiddenAttributesError
+    @tasks.update(task_params) # Will raise ActiveModel::ForbiddenAttributesError
+    redirect_to tasks_path(@task)
   end
 
+  def destroy
+    @tasks = Task.find(params[:id])
+    @tasks.destroy
+    # No need for app/views/restaurants/destroy.html.erb
+    redirect_to tasks_path(@tasks), status: :see_other
+  end
 
   private
 
